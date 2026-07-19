@@ -2,309 +2,323 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz — Mentoria Individual</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mentoria Individual — Diagnóstico</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75,700;75,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* =========================================================
-     CONFIGURAÇÃO RÁPIDA — edite aqui:
-     1) Seu número de WhatsApp está lá embaixo no JavaScript,
-        na constante WHATSAPP (formato: 5511999999999)
-     ========================================================= */
-
+  /* ============================================
+     SEU NÚMERO DE WHATSAPP está no JavaScript,
+     na constante WHATSAPP (já preenchido).
+     ============================================ */
   :root{
-    --bg:#0D1321;          /* azul meia-noite */
-    --panel:#141C2F;
-    --line:#243049;
-    --text:#EDF0F6;
-    --muted:#8B96AC;
-    --gold:#E8A33D;        /* âmbar-ouro: ação e progresso */
-    --gold-deep:#C9821B;
+    --bg:#ffffff;
+    --text:#1c1c1c;
+    --muted:#6b7280;
+    --line:#e5e7eb;
+    --green:#16a34a;
+    --green-dark:#15803d;
+    --soft:#f3f4f6;
+    --accent:#111827;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%}
   body{
     background:var(--bg);
     color:var(--text);
     font-family:'Inter',system-ui,sans-serif;
-    display:flex;
-    justify-content:center;
+    display:flex;justify-content:center;
     min-height:100dvh;
   }
   .app{
-    width:100%;
-    max-width:480px;
-    padding:28px 22px 40px;
-    display:flex;
-    flex-direction:column;
+    width:100%;max-width:440px;
+    padding:16px 20px 40px;
+    display:flex;flex-direction:column;
     min-height:100dvh;
   }
 
-  /* ---------- nível de evolução (barra assinatura) ---------- */
-  .level{
-    display:none;
-    margin-bottom:26px;
+  /* ---------- topo / progresso ---------- */
+  .top{padding:6px 0 18px}
+  .brand{
+    text-align:center;font-weight:800;font-size:14px;
+    letter-spacing:.04em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:14px;
   }
-  .level.on{display:block}
-  .level-label{
-    display:flex;justify-content:space-between;
-    font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--muted);margin-bottom:8px;font-weight:600;
-  }
-  .level-label b{color:var(--gold);font-weight:600}
-  .track{
-    height:6px;border-radius:99px;background:var(--panel);
-    overflow:hidden;border:1px solid var(--line);
-  }
+  .track{height:8px;border-radius:99px;background:var(--soft);overflow:hidden}
   .fill{
     height:100%;width:0%;
-    background:linear-gradient(90deg,var(--gold-deep),var(--gold));
+    background:var(--green);
     border-radius:99px;
-    transition:width .5s cubic-bezier(.22,1,.36,1);
+    transition:width .45s cubic-bezier(.22,1,.36,1);
   }
 
   /* ---------- telas ---------- */
-  .screen{display:none;flex:1;flex-direction:column;animation:in .35s ease both}
+  .screen{display:none;flex:1;flex-direction:column;animation:in .3s ease both}
   .screen.on{display:flex}
-  @keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-  @media (prefers-reduced-motion:reduce){
-    .screen{animation:none}
-    .fill{transition:none}
-  }
+  @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.screen{animation:none}.fill{transition:none}}
 
-  .eyebrow{
-    font-size:11px;font-weight:600;letter-spacing:.18em;
-    text-transform:uppercase;color:var(--gold);margin-bottom:14px;
-  }
-  h1,h2{
-    font-family:'Archivo',sans-serif;
-    font-stretch:75%;
-    line-height:1.08;
-    letter-spacing:-.01em;
-  }
-  h1{font-size:clamp(30px,8vw,40px);font-weight:800;margin-bottom:16px}
-  h2{font-size:clamp(22px,6vw,28px);font-weight:700;margin-bottom:24px}
-  .sub{color:var(--muted);font-size:15px;line-height:1.6;margin-bottom:32px}
+  h1{font-size:26px;font-weight:800;line-height:1.25;text-align:center;margin-bottom:14px}
+  h2{font-size:21px;font-weight:800;line-height:1.3;text-align:center;margin-bottom:22px}
+  .sub{color:var(--muted);font-size:15px;line-height:1.6;text-align:center;margin-bottom:26px}
+  .hl{color:var(--green)}
 
   /* ---------- opções ---------- */
-  .opts{display:flex;flex-direction:column;gap:10px}
+  .opts{display:flex;flex-direction:column;gap:12px}
   .opt{
-    text-align:left;
-    background:var(--panel);
-    border:1px solid var(--line);
-    color:var(--text);
-    font-family:inherit;font-size:15px;font-weight:500;
-    padding:16px 18px;border-radius:12px;
-    cursor:pointer;line-height:1.45;
-    transition:border-color .15s,transform .1s;
+    display:flex;align-items:center;gap:12px;
+    text-align:left;width:100%;
+    background:#fff;
+    border:2px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    font-family:inherit;font-size:15px;font-weight:600;color:var(--text);
+    cursor:pointer;line-height:1.4;
+    transition:border-color .15s, background .15s, transform .1s;
+    box-shadow:0 1px 2px rgba(0,0,0,.04);
   }
-  .opt:hover{border-color:var(--gold)}
+  .opt:hover{border-color:var(--green)}
   .opt:active{transform:scale(.985)}
-  .opt:focus-visible,.btn:focus-visible{
-    outline:2px solid var(--gold);outline-offset:2px;
-  }
+  .opt .emo{font-size:22px;flex:none}
+  .opt:focus-visible,.btn:focus-visible{outline:3px solid var(--green);outline-offset:2px}
 
   /* ---------- botões ---------- */
   .btn{
     display:block;width:100%;
-    background:linear-gradient(180deg,var(--gold),var(--gold-deep));
-    color:#1A1305;
-    font-family:inherit;font-size:16px;font-weight:600;
-    padding:17px;border:none;border-radius:12px;
+    background:var(--green);
+    color:#fff;
+    font-family:inherit;font-size:17px;font-weight:800;
+    padding:18px;border:none;border-radius:14px;
     cursor:pointer;text-align:center;text-decoration:none;
-    transition:transform .1s,filter .15s;
+    box-shadow:0 4px 14px rgba(22,163,74,.35);
+    transition:background .15s, transform .1s;
+    animation:pulse 1.8s infinite;
   }
-  .btn:hover{filter:brightness(1.06)}
+  .btn:hover{background:var(--green-dark)}
   .btn:active{transform:scale(.985)}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 4px 14px rgba(22,163,74,.35)}
+    50%{box-shadow:0 4px 22px rgba(22,163,74,.55)}
+  }
+  @media (prefers-reduced-motion:reduce){.btn{animation:none}}
   .spacer{flex:1}
 
-  /* ---------- tela final ---------- */
-  .badge{
-    display:inline-flex;align-items:center;gap:8px;
-    background:rgba(232,163,61,.12);
-    border:1px solid rgba(232,163,61,.4);
-    color:var(--gold);
-    font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
-    padding:8px 14px;border-radius:99px;margin-bottom:20px;
+  /* ---------- interstitial / prova ---------- */
+  .note{
+    background:var(--soft);
+    border-radius:14px;
+    padding:18px;
+    font-size:15px;line-height:1.6;color:var(--text);
+    margin-bottom:24px;
   }
-  .badge svg{flex:none}
-  .result-note{
-    background:var(--panel);border:1px solid var(--line);
-    border-left:3px solid var(--gold);
+  .note b{color:var(--green-dark)}
+  .quote{
+    border-left:4px solid var(--green);
+    background:#f0fdf4;
     border-radius:0 12px 12px 0;
-    padding:16px 18px;margin:0 0 28px;
-    color:var(--muted);font-size:14px;line-height:1.65;
+    padding:16px;margin-bottom:24px;
+    font-size:14.5px;line-height:1.6;color:#374151;
   }
-  .result-note b{color:var(--text)}
-  .wa-hint{
-    text-align:center;color:var(--muted);font-size:12.5px;margin-top:14px;
+  .quote .who{display:block;margin-top:8px;font-weight:700;color:var(--text);font-size:13px}
+
+  /* ---------- loading ---------- */
+  .load-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}
+  .spinner{
+    width:56px;height:56px;border-radius:50%;
+    border:5px solid var(--soft);
+    border-top-color:var(--green);
+    animation:spin 1s linear infinite;
   }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .load-txt{font-size:16px;font-weight:700;text-align:center}
+  .load-sub{color:var(--muted);font-size:14px;text-align:center}
+
+  /* ---------- resultado ---------- */
+  .badge{
+    margin:0 auto 18px;
+    display:inline-flex;align-items:center;gap:8px;
+    background:#f0fdf4;border:1px solid #bbf7d0;color:var(--green-dark);
+    font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    padding:9px 16px;border-radius:99px;
+  }
+  .center{text-align:center}
+  .wa-hint{text-align:center;color:var(--muted);font-size:12.5px;margin-top:12px}
 </style>
 </head>
 <body>
 <div class="app">
 
-  <div class="level" id="level">
-    <div class="level-label"><span>Nível de clareza</span><b id="pct">0%</b></div>
+  <div class="top">
+    <div class="brand">Thales Cardo</div>
     <div class="track"><div class="fill" id="fill"></div></div>
   </div>
 
-  <!-- ============ ABERTURA ============ -->
+  <!-- ============ TELA 1: ABERTURA ============ -->
   <section class="screen on" id="s-start">
-    <div class="eyebrow">Diagnóstico rápido · 7 perguntas · 1 minuto</div>
-    <h1>Descubra o que está travando a sua evolução.</h1>
-    <p class="sub">Responda com sinceridade. Ao final, você recebe um diagnóstico do seu momento atual e descobre se a Mentoria Individual é para você.</p>
+    <h1>Descubra o que está <span class="hl">travando a sua evolução</span> — em menos de 1 minuto</h1>
+    <p class="sub">Responda 7 perguntas rápidas e receba um diagnóstico do seu momento atual. No final, você descobre se a <b>Mentoria Individual</b> é para você.</p>
     <div class="spacer"></div>
-    <button class="btn" onclick="start()">Começar o diagnóstico</button>
+    <button class="btn" onclick="go('q',0)">COMEÇAR AGORA ➜</button>
   </section>
 
-  <!-- ============ PERGUNTAS (geradas via JS) ============ -->
+  <!-- ============ TELA DE PERGUNTA (dinâmica) ============ -->
   <section class="screen" id="s-quiz">
     <h2 id="q-title"></h2>
     <div class="opts" id="q-opts"></div>
     <div class="spacer"></div>
   </section>
 
+  <!-- ============ INTERSTITIAL 1 ============ -->
+  <section class="screen" id="s-mid1">
+    <h2>Boa! 👊 Você está sendo sincero(a) — e isso é raro.</h2>
+    <div class="note">
+      A maioria das pessoas passa <b>anos</b> sabendo o que precisa mudar, mas sem dar o primeiro passo. Você acabou de dar o seu. Faltam só mais algumas perguntas.
+    </div>
+    <div class="spacer"></div>
+    <button class="btn" onclick="go('q',3)">CONTINUAR ➜</button>
+  </section>
+
+  <!-- ============ INTERSTITIAL 2 (prova social) ============ -->
+  <section class="screen" id="s-mid2">
+    <h2>Você não está sozinho(a) nessa 🤝</h2>
+    <div class="quote">
+      "Eu sabia que podia mais, mas vivia travado. O acompanhamento individual me deu clareza e, principalmente, alguém me cobrando de verdade. Em poucos meses minha vida virou outra."
+      <span class="who">— Aluno da Mentoria Individual</span>
+    </div>
+    <div class="note">Últimas perguntas — elas definem o seu <b>diagnóstico final</b>.</div>
+    <div class="spacer"></div>
+    <button class="btn" onclick="go('q',5)">RESPONDER AS ÚLTIMAS ➜</button>
+  </section>
+
+  <!-- ============ LOADING ============ -->
+  <section class="screen" id="s-load">
+    <div class="load-wrap">
+      <div class="spinner" aria-hidden="true"></div>
+      <div>
+        <div class="load-txt" id="load-txt">Analisando suas respostas...</div>
+        <div class="load-sub">Isso leva só alguns segundos</div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ RESULTADO ============ -->
   <section class="screen" id="s-end">
-    <div class="badge">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-      Perfil compatível
-    </div>
-    <h2>Seu potencial existe. O que falta é direção — e cobrança.</h2>
-    <p class="result-note" id="diag"></p>
+    <div class="center"><span class="badge">✅ Diagnóstico concluído</span></div>
+    <h2>Seu perfil é <span class="hl">compatível</span> com a Mentoria Individual</h2>
+    <div class="note" id="diag"></div>
+    <p class="sub">Clique no botão abaixo e fale comigo agora — suas respostas já vão junto na mensagem.</p>
     <div class="spacer"></div>
-    <a class="btn" id="wa-btn" href="#" target="_blank" rel="noopener">Falar sobre a Mentoria Individual</a>
-    <p class="wa-hint">Você será direcionado ao WhatsApp com suas respostas — é só enviar.</p>
+    <a class="btn" id="wa-btn" href="#" target="_blank" rel="noopener">QUERO SABER COMO FUNCIONA ➜</a>
+    <p class="wa-hint">Você será direcionado(a) ao WhatsApp. É só apertar enviar.</p>
   </section>
 
 </div>
 
 <script>
-/* =========================================================
-   COLOQUE SEU NÚMERO AQUI (com DDI e DDD, só dígitos)
-   Exemplo Brasil: 5511987654321
-   ========================================================= */
 const WHATSAPP = "5511963603959";
 
 const QUESTIONS = [
-  {
-    t:"Como você descreveria seu momento de vida hoje?",
-    o:["Estagnado(a) — sei que posso mais, mas não saio do lugar",
-       "Em movimento, mas sem direção clara",
-       "Evoluindo, mas mais devagar do que gostaria",
-       "Bem — só quero acelerar meus resultados"]
-  },
-  {
-    t:"O que mais trava a sua evolução hoje?",
-    o:["Falta de disciplina e constância",
-       "Procrastinação — sei o que fazer, mas não faço",
-       "Falta de clareza sobre meus objetivos",
-       "Medo de arriscar e sair da zona de conforto"]
-  },
-  {
-    t:"Há quanto tempo você sente que está devendo para você mesmo(a)?",
-    o:["Menos de 6 meses",
-       "De 6 meses a 1 ano",
-       "Mais de 1 ano",
-       "Anos... e isso me incomoda muito"]
-  },
-  {
-    t:"O que você já tentou para mudar isso?",
-    o:["Livros, vídeos e conteúdo gratuito",
-       "Cursos online",
-       "Nada estruturado até agora",
-       "Já tentei de tudo, mas sozinho(a) não consigo manter"]
-  },
-  {
-    t:"Se nada mudar, como você se vê daqui a 1 ano?",
-    o:["No mesmo lugar — e isso me assusta",
-       "Pior, porque o tempo está passando",
-       "Não quero nem pensar nisso"]
-  },
-  {
-    t:"O que faria mais diferença para você agora?",
-    o:["Um plano de ação claro e personalizado",
-       "Alguém me cobrando e acompanhando de perto",
-       "Direcionamento para tomar decisões importantes",
-       "Tudo isso junto"]
-  },
-  {
-    t:"Você está disposto(a) a investir em um acompanhamento individual para acelerar sua evolução?",
-    o:["Sim — quero saber como funciona",
-       "Sim, dependendo do valor",
-       "Ainda não, só estou pesquisando"]
-  }
+  { t:"Como você descreveria seu momento de vida hoje?",
+    o:[["😔","Estagnado(a) — sei que posso mais, mas não saio do lugar"],
+       ["🌀","Em movimento, mas sem direção clara"],
+       ["🐢","Evoluindo, mas mais devagar do que gostaria"],
+       ["🚀","Bem — só quero acelerar meus resultados"]] },
+  { t:"O que mais trava a sua evolução hoje?",
+    o:[["⏰","Falta de disciplina e constância"],
+       ["🙈","Procrastinação — sei o que fazer, mas não faço"],
+       ["🧭","Falta de clareza sobre meus objetivos"],
+       ["😨","Medo de arriscar e sair da zona de conforto"]] },
+  { t:"Há quanto tempo você sente que está devendo para você mesmo(a)?",
+    o:[["📅","Menos de 6 meses"],
+       ["🗓️","De 6 meses a 1 ano"],
+       ["⌛","Mais de 1 ano"],
+       ["😞","Anos... e isso me incomoda muito"]] },
+  { t:"O que você já tentou para mudar isso?",
+    o:[["📚","Livros, vídeos e conteúdo gratuito"],
+       ["💻","Cursos online"],
+       ["🤷","Nada estruturado até agora"],
+       ["😮‍💨","Já tentei de tudo, mas sozinho(a) não consigo manter"]] },
+  { t:"Se nada mudar, como você se vê daqui a 1 ano?",
+    o:[["😰","No mesmo lugar — e isso me assusta"],
+       ["📉","Pior, porque o tempo está passando"],
+       ["🙅","Não quero nem pensar nisso"]] },
+  { t:"O que faria mais diferença para você agora?",
+    o:[["🗺️","Um plano de ação claro e personalizado"],
+       ["👊","Alguém me cobrando e acompanhando de perto"],
+       ["🎯","Direcionamento para tomar decisões importantes"],
+       ["🔥","Tudo isso junto"]] },
+  { t:"Você está disposto(a) a investir em um acompanhamento individual para acelerar sua evolução?",
+    o:[["✅","Sim — quero saber como funciona"],
+       ["💰","Sim, dependendo do valor"],
+       ["👀","Ainda não, só estou pesquisando"]] }
 ];
 
-let step = 0;
-const answers = [];
+/* Depois de qual pergunta entra cada tela intermediária */
+const MIDS = { 2:"s-mid1", 4:"s-mid2" };
 
+let answers = [];
 const $ = id => document.getElementById(id);
 
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   $(id).classList.add('on');
-}
-
-function progress(){
-  const pct = Math.round((step / QUESTIONS.length) * 100);
-  $('fill').style.width = pct + '%';
-  $('pct').textContent = pct + '%';
-}
-
-function start(){
-  $('level').classList.add('on');
-  render();
-  show('s-quiz');
-}
-
-function render(){
-  const q = QUESTIONS[step];
-  $('q-title').textContent = q.t;
-  const box = $('q-opts');
-  box.innerHTML = '';
-  q.o.forEach(text=>{
-    const b = document.createElement('button');
-    b.className = 'opt';
-    b.textContent = text;
-    b.onclick = ()=>answer(text);
-    box.appendChild(b);
-  });
-  progress();
   window.scrollTo({top:0});
 }
 
-function answer(text){
-  answers.push(text);
-  step++;
-  if(step < QUESTIONS.length){
-    render();
-  }else{
-    finish();
-  }
+function progress(step){
+  const pct = Math.round((step / QUESTIONS.length) * 100);
+  $('fill').style.width = pct + '%';
+}
+
+function go(kind, idx){
+  if(kind === 'q'){ renderQ(idx); show('s-quiz'); }
+}
+
+function renderQ(idx){
+  const q = QUESTIONS[idx];
+  $('q-title').textContent = q.t;
+  const box = $('q-opts');
+  box.innerHTML = '';
+  q.o.forEach(([emo, text])=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = '<span class="emo">'+emo+'</span><span>'+text+'</span>';
+    b.onclick = ()=>answer(idx, text);
+    box.appendChild(b);
+  });
+  progress(idx);
+}
+
+function answer(idx, text){
+  answers[idx] = text;
+  const next = idx + 1;
+  progress(next);
+  if(MIDS[idx]){ show(MIDS[idx]); return; }
+  if(next < QUESTIONS.length){ renderQ(next); show('s-quiz'); }
+  else { loading(); }
+}
+
+function loading(){
+  show('s-load');
+  const msgs = ["Analisando suas respostas...","Identificando seu ponto de travamento...","Montando seu diagnóstico..."];
+  let i = 0;
+  const iv = setInterval(()=>{
+    i++;
+    if(i < msgs.length){ $('load-txt').textContent = msgs[i]; }
+    else { clearInterval(iv); finish(); }
+  }, 1400);
 }
 
 function finish(){
-  $('fill').style.width = '100%';
-  $('pct').textContent = '100%';
-
-  // mini-diagnóstico baseado nas respostas-chave
   const trava = answers[1] || '';
   const tempo = answers[2] || '';
   $('diag').innerHTML =
-    'Pelo seu diagnóstico, seu maior ponto de travamento hoje é <b>' +
-    trava.toLowerCase() + '</b> — e isso já dura <b>' +
-    tempo.toLowerCase() + '</b>. Esse é exatamente o tipo de padrão que a mentoria quebra: ' +
-    'plano claro, acompanhamento próximo e cobrança de verdade.';
+    'Pelo seu diagnóstico, o que mais te trava hoje é <b>' + trava.toLowerCase() +
+    '</b> — e isso já dura <b>' + tempo.toLowerCase() +
+    '</b>. É exatamente esse padrão que a mentoria quebra: plano claro, acompanhamento próximo e cobrança de verdade.';
 
-  // monta a mensagem do WhatsApp com as respostas
   let msg = 'Olá! Acabei de fazer o diagnóstico da Mentoria Individual. Minhas respostas:\n';
-  QUESTIONS.forEach((q,i)=>{
-    msg += '\n' + (i+1) + ') ' + q.t + '\n→ ' + answers[i];
-  });
+  QUESTIONS.forEach((q,i)=>{ msg += '\n' + (i+1) + ') ' + q.t + '\n→ ' + (answers[i]||''); });
   msg += '\n\nQuero saber como funciona a mentoria.';
   $('wa-btn').href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg);
 
