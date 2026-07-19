@@ -121,6 +121,18 @@
   }
   .quote .who{display:block;margin-top:8px;font-weight:700;color:var(--text);font-size:13px}
 
+  /* ---------- prova social ---------- */
+  .proofs{display:flex;flex-direction:column;gap:16px;margin-bottom:22px}
+  .proof{
+    background:#fff;border:1px solid var(--line);border-radius:16px;
+    overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);
+  }
+  .proof img{display:block;width:100%;height:auto}
+  .proof figcaption{
+    padding:12px 14px;font-size:13.5px;font-weight:600;color:#374151;
+    border-top:1px solid var(--line);line-height:1.45;
+  }
+
   /* ---------- loading ---------- */
   .load-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}
   .spinner{
@@ -195,10 +207,20 @@
 
   <!-- ============ INTERSTITIAL 2 (prova social) ============ -->
   <section class="screen" id="s-mid2">
-    <h2>Você não está sozinho(a) nessa 🤝</h2>
-    <div class="quote">
-      "Eu sabia que podia mais, mas vivia travado. O acompanhamento individual me deu clareza e, principalmente, alguém me cobrando de verdade. Em poucos meses minha vida virou outra."
-      <span class="who">— Aluno da Mentoria Individual</span>
+    <h2>Veja <span class="hl">na prática</span> quem já vive essa transformação 🤝</h2>
+    <div class="proofs">
+      <figure class="proof">
+        <img src="prova3.jpg" alt="Conversa de WhatsApp: aluno mantendo o passo a passo da mentoria" loading="lazy">
+        <figcaption>Acompanhamento de perto: "continuo no nosso passo a passo, cada dia um pouco mais"</figcaption>
+      </figure>
+      <figure class="proof">
+        <img src="prova2.jpg" alt="Conversa de WhatsApp: aluno correndo 10km" loading="lazy">
+        <figcaption>Disciplina virando resultado: 10km concluídos 🏃</figcaption>
+      </figure>
+      <figure class="proof">
+        <img src="prova1.jpg" alt="Mensagem de gratidão de aluno" loading="lazy">
+        <figcaption>"É Deus que coloca pessoas como você na vida da gente"</figcaption>
+      </figure>
     </div>
     <div class="note">Últimas perguntas — elas definem o seu <b>diagnóstico final</b>.</div>
     <div class="spacer"></div>
