@@ -133,6 +133,21 @@
   .load-txt{font-size:16px;font-weight:700;text-align:center}
   .load-sub{color:var(--muted);font-size:14px;text-align:center}
 
+  /* ---------- formulário ---------- */
+  .form{display:flex;flex-direction:column;gap:12px}
+  .field{
+    width:100%;
+    background:#fff;
+    border:2px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    font-family:inherit;font-size:16px;font-weight:500;color:var(--text);
+    transition:border-color .15s;
+  }
+  .field:focus{outline:none;border-color:var(--green)}
+  .field::placeholder{color:#9ca3af}
+  .err{color:#dc2626;font-size:13.5px;font-weight:600;min-height:18px}
+
   /* ---------- resultado ---------- */
   .badge{
     margin:0 auto 18px;
@@ -201,21 +216,43 @@
     </div>
   </section>
 
+  <!-- ============ CAPTURA DE DADOS ============ -->
+  <section class="screen" id="s-lead">
+    <div class="center"><span class="badge">🎉 Diagnóstico pronto</span></div>
+    <h2>Seu diagnóstico está pronto!</h2>
+    <p class="sub">Preencha seus dados abaixo para <b>liberar seu resultado completo</b>:</p>
+    <div class="form">
+      <input class="field" id="f-nome" type="text" placeholder="Seu nome" autocomplete="name">
+      <input class="field" id="f-email" type="email" placeholder="Seu melhor e-mail" autocomplete="email">
+      <input class="field" id="f-fone" type="tel" placeholder="Seu WhatsApp (com DDD)" autocomplete="tel">
+      <p class="err" id="f-err"></p>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn" id="lead-btn" onclick="submitLead()">VER MEU RESULTADO ➜</button>
+    <p class="wa-hint">🔒 Seus dados estão seguros e não serão compartilhados.</p>
+  </section>
+
   <!-- ============ RESULTADO ============ -->
   <section class="screen" id="s-end">
     <div class="center"><span class="badge">✅ Diagnóstico concluído</span></div>
     <h2>Seu perfil é <span class="hl">compatível</span> com a Mentoria Individual</h2>
     <div class="note" id="diag"></div>
-    <p class="sub">Clique no botão abaixo e fale comigo agora — suas respostas já vão junto na mensagem.</p>
+    <p class="sub">✅ Suas respostas foram registradas. <b>Em breve eu mesmo vou entrar em contato com você</b> pelo WhatsApp que informou, para conversarmos sobre o seu diagnóstico.</p>
     <div class="spacer"></div>
-    <a class="btn" id="wa-btn" href="#" target="_blank" rel="noopener">QUERO SABER COMO FUNCIONA ➜</a>
-    <p class="wa-hint">Você será direcionado(a) ao WhatsApp. É só apertar enviar.</p>
+    <div class="note center">📲 Fica de olho no seu WhatsApp e no seu e-mail nos próximos dias. Enquanto isso, me acompanha no Instagram: <b>@thalescardo</b></div>
   </section>
 
 </div>
 
 <script>
-const WHATSAPP = "5511963603959";
+/* ============================================
+   URL DA SUA PLANILHA (Google Apps Script).
+   Siga o passo a passo que te enviei e cole
+   aqui a URL que termina em /exec
+   Enquanto estiver vazio, o quiz funciona
+   normalmente, só não salva na planilha.
+   ============================================ */
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbxuFuMlmFFG8qZiY2PkRZxOLkQUUEqchpIl8ti0bdyfF2_bfwxkmHEZ_N-ERgeyQewW/exec";
 
 const QUESTIONS = [
   { t:"Como você descreveria seu momento de vida hoje?",
@@ -305,22 +342,48 @@ function loading(){
   const iv = setInterval(()=>{
     i++;
     if(i < msgs.length){ $('load-txt').textContent = msgs[i]; }
-    else { clearInterval(iv); finish(); }
+    else { clearInterval(iv); show('s-lead'); }
   }, 1400);
 }
 
-function finish(){
+function submitLead(){
+  const nome  = $('f-nome').value.trim();
+  const email = $('f-email').value.trim();
+  const fone  = $('f-fone').value.replace(/\D/g,'');
+  const err   = $('f-err');
+
+  if(nome.length < 2){ err.textContent = 'Digite seu nome.'; return; }
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent = 'Digite um e-mail válido.'; return; }
+  if(fone.length < 10 || fone.length > 13){ err.textContent = 'Digite seu WhatsApp com DDD (só números).'; return; }
+  err.textContent = '';
+
+  const btn = $('lead-btn');
+  btn.textContent = 'LIBERANDO...';
+  btn.disabled = true;
+
+  // envia para a planilha (se configurada), sem travar a experiência
+  if(SHEETS_URL){
+    const payload = { nome, email, whatsapp: fone, data: new Date().toLocaleString('pt-BR') };
+    QUESTIONS.forEach((q,i)=>{ payload['p'+(i+1)] = answers[i] || ''; });
+    fetch(SHEETS_URL, {
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'text/plain'},
+      body: JSON.stringify(payload)
+    }).catch(()=>{});
+  }
+
+  finish(nome);
+}
+
+function finish(nome){
   const trava = answers[1] || '';
   const tempo = answers[2] || '';
+  const oi = nome ? '<b>' + nome.split(' ')[0] + '</b>, pelo' : 'Pelo';
   $('diag').innerHTML =
-    'Pelo seu diagnóstico, o que mais te trava hoje é <b>' + trava.toLowerCase() +
+    oi + ' seu diagnóstico, o que mais te trava hoje é <b>' + trava.toLowerCase() +
     '</b> — e isso já dura <b>' + tempo.toLowerCase() +
     '</b>. É exatamente esse padrão que a mentoria quebra: plano claro, acompanhamento próximo e cobrança de verdade.';
-
-  let msg = 'Olá! Acabei de fazer o diagnóstico da Mentoria Individual. Minhas respostas:\n';
-  QUESTIONS.forEach((q,i)=>{ msg += '\n' + (i+1) + ') ' + q.t + '\n→ ' + (answers[i]||''); });
-  msg += '\n\nQuero saber como funciona a mentoria.';
-  $('wa-btn').href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg);
 
   show('s-end');
 }
